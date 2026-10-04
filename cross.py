@@ -18,7 +18,7 @@ CSS = """
   .side #detail{border-top:0;border-left:1px solid var(--mist);padding:2px 0 0 20px;margin-top:14px;min-height:240px}}
 .pick{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:22px 0 6px}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:5px 6px 5px 10px;border:1px solid var(--mist);border-radius:4px;background:var(--land);font-size:15px}
-.chip .dep-ico,#groups .dep-ico,.sug .dep-ico{flex:none}
+.chip .dep-ico,#groups .dep-ico{flex:none}
 .chip img,.fact img,.ex img{width:16px;height:16px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px var(--mist);flex:none}
 .chip button{background:none;border:0;color:var(--graphite);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;border-radius:3px}
 .chip button:hover{color:var(--ink)}
@@ -38,7 +38,7 @@ CSS = """
 #groups .more{border:0;padding:4px 0;margin:2px 0 8px;color:var(--graphite);text-decoration:underline dashed var(--peach) 1px;text-underline-offset:3px}
 /* « En bref » : compte rendu assemblé par gabarits à partir des faits du graphe, chaque morceau ouvre sa fiche */
 #brief{margin:16px 0 0;max-width:46em}#brief:empty{display:none}
-#brief h2{font:500 19px/1.3 var(--serif);margin:0 0 6px}#brief p{margin:0 0 7px;font-size:15.5px;line-height:1.55}
+#brief p{margin:0 0 7px;font-size:15.5px;line-height:1.55}
 #brief .bf{cursor:pointer;text-decoration:underline dotted var(--graphite) 1px;text-underline-offset:3px}
 #brief .bf:hover,#brief .bf:focus-visible{text-decoration:underline solid var(--peach) 1px}#brief .why{color:var(--graphite)}
 #groups h3{font:500 13.5px var(--sans);color:var(--graphite);margin:14px 0 7px}
@@ -49,11 +49,18 @@ CSS = """
 .scope{font-size:13.5px;color:var(--graphite);margin:0;min-height:1.6em}
 .scope button{display:inline;text-align:left;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dashed var(--peach) 1px;text-underline-offset:3px}
 .scope button:hover{text-decoration-style:solid}
-.sug{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:13.5px;color:var(--graphite);margin:6px 0 0}
-.sug:empty{display:none}
-.sug button{display:inline-flex;align-items:center;gap:6px;text-align:left;font:14px var(--sans);color:var(--ink);background:none;border:1px dashed var(--graphite);border-radius:4px;padding:4px 9px;cursor:pointer}
-.sug button:hover{border-color:var(--peach);border-style:solid}.sug button::before{content:"+";color:var(--graphite)}
-.sug img{width:15px;height:15px;border-radius:50%;object-fit:cover}.sug small{color:var(--graphite);font-size:12px}
+/* Une forme par rôle : étiquette PLEINE = ce que j'ai choisi ; lien « + » = ce que je peux ajouter ; contrôle segmenté = changer de vue (le seul de la page) */
+.chip.res{border-style:dashed;border-color:var(--graphite)}.chip .how{color:var(--graphite);font-size:13.5px}
+.chip select{font:13.5px var(--sans);color:var(--ink);background:none;border:0;border-bottom:1px dashed var(--peach);padding:1px 2px;cursor:pointer;max-width:13.5em}
+.chip .dep-ico{color:var(--graphite)}
+#more{margin:26px 0 0;padding:16px 0 0;border-top:1px solid var(--mist)}#more[hidden]{display:none}
+#more h2,#brief h2{font:500 19px/1.3 var(--serif);margin:0 0 8px}
+#widen .row{display:grid;grid-template-columns:92px 1fr;gap:2px 10px;align-items:baseline;margin:0 0 4px}
+#widen .k{font-size:13.5px;color:var(--graphite)}
+.add{display:inline-flex;align-items:center;gap:6px;text-align:left;font:15px var(--sans);color:var(--ink);background:none;border:0;padding:4px 0;margin:0 18px 0 0;cursor:pointer}
+.add::before{content:"+";color:var(--peach);font-weight:600}.add:hover{text-decoration:underline solid var(--peach) 1px;text-underline-offset:3px}
+.add img{width:15px;height:15px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px var(--mist)}.add small{color:var(--graphite);font-size:12.5px}.add .dep-ico{flex:none}
+@media (max-width:599px){#widen .row{grid-template-columns:1fr}}
 .ex{display:flex;flex-direction:column;gap:10px;margin:28px 0 0;font-size:16px}
 .ex a{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 #schema{display:block;width:100%;height:auto;margin:10px 0 0;overflow:visible}
@@ -188,6 +195,7 @@ const img = id => pic(id) ? `<img src="${esc(pic(id))}" alt="">` : "";
 const who = id => `${img(id)}<span>${nm(id)}</span>`;
 const DOS = Object.fromEntries(D.dossiers.map(x => ["d:" + x.id, x]));
 const label = t => DOS[t] ? esc(DOS[t].title) : RES[t] ? esc(RES_FR[RES[t]]) : nm(t);
+const SWORDS = `<svg class="dep-ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GLYPH.non_state}</svg>`;   // étiquette d'un conflit
 const mark = t => DOS[t] ? "" : RES[t] ? depIcon(RES[t], 15) : img(t);   // drapeau, photo ou pictogramme devant le nom
 // source → lien court vers le site (texte complet au survol) ; sans URL, le texte tel quel
 const src = s => { const m = String(s).match(/https?:\/\/[^\s<]+/); if(!m) return esc(s);
@@ -230,7 +238,9 @@ const ARROW = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" strok
 const RES_FR = {arms: "Armes", gas: "Gaz", oil: "Pétrole", minerals: "Minerais", food: "Denrées", debt: "Dette", trade: "Commerce", chips: "Puces", electricity: "Électricité"};
 const RES = Object.fromEntries(Object.keys(RES_FR).filter(t => D.dependencies.some(x => x.type === t)).map(t => ["r:" + t, t]));
 let SEL = (new URLSearchParams(location.search).get("e") || "").split(",").filter(t => D.actors[t] || DOS[t] || RES[t]);
-let SENS = {dep: "dep", four: "four", tout: "tout"}[new URLSearchParams(location.search).get("s")] || null;
+// sens des dépendances, PAR ressource : « &s=oil:four,arms:dep » ; l'ancienne forme « &s=four » vaut pour toutes (clé « * »)
+let SENS = {}; (new URLSearchParams(location.search).get("s") || "").split(",").forEach(x => { const [k, v] = x.includes(":") ? x.split(":") : ["*", x];
+  if(["dep", "four", "tout"].includes(v)) SENS[k] = v; });
 let PICK = null;   // trait ou acteur mis en avant
 let VIEW = {carte: "map", communs: "communs"}[new URLSearchParams(location.search).get("v")] || "schema", WORLD = null;
 function scope(){ const ids = [];
@@ -260,10 +270,12 @@ function facts(ids){ const S = new Set(ids), F = [], extra = [];   // extra : pa
       html: `<div class="who">${who(r)}<span class="k">borde</span>${who(p)}</div><p>État riverain : il borde le passage, sans le posséder.</p>${tail(a)}`}); }));
   const res = new Set(SEL.filter(t => RES[t]).map(t => RES[t]));
   // Sens des dépendances apportées par une ressource : « dep » = ce dont la sélection dépend, « four » = qui dépend d'elle, « tout »
-  const brought = D.dependencies.filter(x => res.has(x.type) && S.has(x.from) !== S.has(x.supplier));
-  const nDep = brought.filter(x => S.has(x.from)).length, nFour = brought.length - nDep, mode = SENS === "four" && nFour ? "four" : SENS === "tout" || !nDep ? "tout" : "dep";
+  const sens = {}; res.forEach(t => { const br = D.dependencies.filter(x => x.type === t && S.has(x.from) !== S.has(x.supplier));
+    const nDep = br.filter(x => S.has(x.from)).length, nFour = br.length - nDep, want = SENS[t] || SENS["*"];
+    sens[t] = {nDep, nFour, mode: want === "four" && nFour ? "four" : want === "tout" || !nDep ? "tout" : "dep"}; });
   D.dependencies.forEach(x => { const a = S.has(x.from), b = S.has(x.supplier);
     if(!(a && b) && !(res.has(x.type) && (a || b))) return;
+    const mode = (sens[x.type] || {}).mode;
     if(a !== b && (mode === "dep" && !a || mode === "four" && !b)) return;
     [x.from, x.supplier].forEach(id => { if(!S.has(id) && !extra.includes(id)) extra.push(id); });
     F.push({group: "lever", links: [[x.supplier, x.from]], color: DEP, width: 1 + x.share / 14, dash: "1.5 6", round: true, arrow: true,
@@ -271,7 +283,7 @@ function facts(ids){ const S = new Set(ids), F = [], extra = [];   // extra : pa
       html: `<div class="who">${who(x.from)}<span class="k">dépend de</span>${who(x.supplier)}</div>
         <p>${depIcon(x.type, 15)} ${depText(x)}.</p>${tail(x)}`}); });
   F.forEach((f, i) => f.id = i);
-  return {F, extra, sens: {mode, nDep, nFour}}; }
+  return {F, extra, sens}; }
 
 // ---------- « En bref » : compte rendu par GABARITS, sans modèle de langage — chaque morceau de phrase est un fait du graphe et ouvre sa fiche.
 // Ordre fixe : ce qui oppose, qui soutient qui (et pourquoi), qui négocie, qui dépend de qui. Rien n'est écrit qui ne soit dans network.yaml.
@@ -469,40 +481,42 @@ const card = f => `<div class="fact">${f.html}</div>`;
 
 function render(){ const ids = scope(), {F, extra, sens} = facts(ids), ok = ids.length >= 1 && ids.length + extra.length >= 2;
   const rs = SEL.filter(t => RES[t]);
-  $("#chips").innerHTML = SEL.map((t, i) => `<span class="chip">${mark(t)}${label(t)}<button type="button" data-rm="${i}" aria-label="Retirer ${label(t)}">×</button></span>`).join("");
+  // Sélection : une étiquette pleine par entité. Un conflit dit au survol qui il apporte ; une ressource porte SON réglage de sens.
+  const rm = (t, i) => `<button type="button" data-rm="${i}" aria-label="Retirer ${label(t)}">×</button>`;
+  $("#chips").innerHTML = SEL.map((t, i) => { if(DOS[t]) return `<span class="chip" title="${esc("Apporte ses camps : " + DOS[t].sides.flat().map(id => D.actors[id].name).join(", "))}">${SWORDS}${label(t)}${rm(t, i)}</span>`;
+    if(!RES[t]) return `<span class="chip">${mark(t)}${label(t)}${rm(t, i)}</span>`;
+    const x = sens[RES[t]] || {nDep: 0, nFour: 0}, cur = x.nDep && x.nFour ? x.mode : x.nDep ? "dep" : "four", opt = (v, txt, on) => `<option value="${v}"${cur === v ? " selected" : ""}${on ? "" : " disabled"}>${txt}</option>`;
+    return `<span class="chip res">${mark(t)}${label(t)}<span class="how">${!ids.length ? "ajoutez un pays" : !(x.nDep || x.nFour) ? "aucune donnée pour cette sélection"
+      : `<select data-sens="${RES[t]}" aria-label="Sens des dépendances pour ${label(t)}">${opt("dep", "dont la sélection dépend", x.nDep)}${opt("four", "que la sélection fournit", x.nFour)}${opt("tout", "dans les deux sens", x.nDep && x.nFour)}</select>`}</span>${rm(t, i)}</span>`; }).join("");
   panel();
-  const dos = SEL.filter(t => DOS[t]);
-  $("#scope").innerHTML = (dos.length ? dos.map(t => `${label(t)} apporte ses camps : ${DOS[t].sides.flat().map(nm).join(", ")}. `).join("") : "")
-    + rs.map(t => !ids.length ? `${label(t)} : ajoutez un pays pour voir ses dépendances. `
-        : F.some(f => f.dep === RES[t]) ? `${label(t)} ajoute les pays liés à la sélection par cette ressource (contour pointillé). ` : `${label(t)} : aucune dépendance chiffrée pour cette sélection. `).join("")
-    ;
-  $("#sens").hidden = !(sens.nDep || sens.nFour);   // toujours là dès qu'une ressource apporte des pays ; un sens vide est grisé
-  document.querySelectorAll("#sens button").forEach(b => { b.setAttribute("aria-pressed", b.dataset.s === (sens.nDep && sens.nFour ? sens.mode : sens.nDep ? "dep" : "four"));
-    b.disabled = b.dataset.s === "dep" ? !sens.nDep : b.dataset.s === "four" ? !sens.nFour : !(sens.nDep && sens.nFour);
-    b.title = b.disabled ? b.dataset.s === "tout" ? "Un seul sens existe pour cette sélection" : "Aucune dépendance dans ce sens pour cette sélection" : ""; });
   $("#reset").hidden = SEL.length < 2;
+  // Élargir : UNE zone sous le résultat pour tout ce qu'on peut ajouter, rangé par nature (les deux anciennes rangées « À croiser aussi » et « Reliés aussi par »)
   const sug = ids.length ? suggest(ids) : [];
-  $("#sug").innerHTML = sug.length ? "À croiser aussi : " + sug.map(x => `<button type="button" data-add="${esc(x.t)}">${mark(x.t)}${label(x.t)} <small>${x.n} lien${x.n > 1 ? "s" : ""}</small></button>`).join("") : "";
-  $("#empty").hidden = ok; $("#out").hidden = !ok; $(".cross").classList.toggle("has", ok);
-  history.replaceState(null, "", location.pathname + (SEL.length ? "?e=" + SEL.join(",") + (VIEW === "map" ? "&v=carte" : VIEW === "communs" ? "&v=communs" : "") + (GRP == null ? "" : "&g=" + (GRP ? 1 : 0)) + (SENS && rs.length ? "&s=" + SENS : "") : ""));
+  const widen = () => { const add = (t, small, more = "") => `<button type="button" class="add" data-add="${esc(t)}"${more}>${mark(t)}${label(t)}<small>${small}</small></button>`, nf = n => `${n} fait${n > 1 ? "s" : ""}`;
+    const seen = new Set(sug.map(x => x.t)), acts = [...sug.filter(x => !x.dos && !RES[x.t]).map(x => add(x.t, nf(x.n))),
+      ...BR.map((x, i) => seen.has(x.c) ? "" : add(x.c, "relie " + x.near.map(nm).join(", "), ` data-bridge="${i}" title="${esc(x.near.map(a => D.actors[a].name + " (" + bridgeWhy(x, a) + ")").join(" ; "))}"`))].filter(Boolean).slice(0, 6);
+    const rows = [["Conflits", sug.filter(x => x.dos).map(x => add(x.t, nf(x.n)))], ["Acteurs", acts], ["Ressources", sug.filter(x => RES[x.t]).map(x => add(x.t, nf(x.n)))]].filter(([, xs]) => xs.length);
+    $("#more").hidden = !rows.length; $("#more h2").textContent = ok ? "Élargir" : "Croiser avec";   // un seul acteur choisi : c'est l'étape suivante, pas un supplément
+    $("#widen").innerHTML = rows.map(([k, xs]) => `<div class="row"><span class="k">${k}</span><div>${xs.join("")}</div></div>`).join(""); };
+  BR = []; widen();
+  $("#empty").hidden = SEL.length > 0; $("#none").innerHTML = ""; $("#all").hidden = !ok; $("#out").hidden = !ok; $(".cross").classList.toggle("has", ok);
+  history.replaceState(null, "", location.pathname + (SEL.length ? "?e=" + SEL.join(",") + (VIEW === "map" ? "&v=carte" : VIEW === "communs" ? "&v=communs" : "") + (GRP == null ? "" : "&g=" + (GRP ? 1 : 0)) + (rs.some(t => SENS[RES[t]] || SENS["*"]) ? "&s=" + rs.filter(t => SENS[RES[t]] || SENS["*"]).map(t => RES[t] + ":" + (SENS[RES[t]] || SENS["*"])).join(",") : "") : ""));
   document.querySelectorAll("#seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === VIEW));
   $("#brief").innerHTML = ok ? brief(F) : "";
   if(!ok) return;
   draw(ids, extra, F); communs(ids);
   const flat2 = VIEW === "communs";
   $("#schema").style.display = flat2 ? "none" : ""; $("#communs").hidden = VIEW !== "communs"; if(flat2) $("#zoom").hidden = true;
-  ["#legend", "#aside", "#bridges", "#detail"].forEach(q => $(q).style.display = VIEW === "communs" ? "none" : "");
-  const outs = F.filter(f => f.out);
-  $("#aside").innerHTML = outs.length ? "Hors sélection : " + outs.map(f => `<button type="button" data-fact="${f.id}">${nm(f.mediator)}, médiateur entre ${nm(f.nodes[0])} et ${nm(f.nodes[1])}</button>`).join(" ; ") : "";
-  BR = bridges(ids, extra, F);
-  $("#bridges").innerHTML = BR.length ? "Reliés aussi par : " + BR.map((x, i) => `<button type="button" data-add="${esc(x.c)}" data-bridge="${i}" title="${esc(x.near.map(a => D.actors[a].name + " (" + bridgeWhy(x, a) + ")").join(" ; "))}">${img(x.c)}${nm(x.c)} <small>${x.near.map(nm).join(", ")}</small></button>`).join("") : "";
+  ["#legend", "#detail"].forEach(q => $(q).style.display = VIEW === "communs" ? "none" : "");
+  BR = bridges(ids, extra, F); widen();
   const has = g => F.some(f => f.group === g && !f.out), sup = [...new Set(F.filter(f => f.group === "support").map(f => f.color))];
   $("#legend").innerHTML = [has("tension") && [...new Set(F.filter(f => f.group === "tension").map(f => f.color))].map(c => { const t = Object.values(TENSION).find(x => x.color === c);
       return `<span>${stroke(c, {w: Math.min(t.width, 3), dash: t.dash})}${t.label.toLowerCase()}</span>`; }).join(""),
     has("support") && `<span>${sup.map(c => stroke(c)).join("")}__SOUTIEN__ (tirets : en baisse ou allégué)</span>`,
     has("mediation") && `<span>${stroke("var(--graphite)", {w: 1.6, dash: "3 5"})}__MEDIATION__</span>`,
     has("lever") && `<span>${stroke(DEP, {w: 3, dash: "1.5 6", round: true})}__LEVIER__ (épaisseur : part mesurée)</span>`
-      + [...new Set(F.filter(f => f.dep).map(f => f.dep))].map(t => `<span>${depIcon(t)}${DEP_NAME[t] || t}</span>`).join("")].filter(Boolean).join("");
+      + [...new Set(F.filter(f => f.dep).map(f => f.dep))].map(t => `<span>${depIcon(t)}${DEP_NAME[t] || t}</span>`).join(""),
+    extra.length && `<span><svg width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="var(--graphite)" stroke-width="1.5" stroke-dasharray="2.5 2.5"/></svg>pays apporté par une ressource</span>`].filter(Boolean).join("");
   const pairs = [], isP = id => D.actors[id].kind === "passage";   // un passage n'a pas de « relation » à attendre avec chaque pays
   ids.forEach((a, i) => ids.slice(i + 1).forEach(b => { if(!isP(a) && !isP(b) && !F.some(f => f.nodes.includes(a) && f.nodes.includes(b))) pairs.push(`${nm(a)} et ${nm(b)}`); }));
   $("#none").innerHTML = pairs.length ? `Ce que le graphe ne contient pas : aucune relation documentée entre ${pairs.join(" ; ")}. Cela ne prouve pas qu'il n'y en a pas, seulement qu'aucune n'est sourcée ici.` : "";
@@ -577,9 +591,8 @@ document.addEventListener("click", ev => { const t = ev.target;
   if($("#schema").dataset.dragged){ delete $("#schema").dataset.dragged; if(t.closest && t.closest("#schema")) return; }
   const add = t.closest && t.closest("[data-add]"); if(add){ ZM = null; if(!SEL.includes(add.dataset.add)) SEL.push(add.dataset.add); PICK = null; $("#q").value = ""; HIT = 0; return render(); }
   if(t.dataset && t.dataset.full){ FULL = true; return panel(); }
-  if(!$("#panel").hidden && !(t.closest && (t.closest("#panel") || t.closest(".pick") || t.closest("#sug")))) toggle(false);
-  if(t.id === "reset"){ SEL = []; PICK = null; ZM = null; GRP = undefined; SENS = null; toggle(false); return render(); }
-  if(t.closest && t.closest("#sens button")){ SENS = t.closest("#sens button").dataset.s; PICK = null; ZM = null; return render(); }
+  if(!$("#panel").hidden && !(t.closest && (t.closest("#panel") || t.closest(".pick") || t.closest("#more")))) toggle(false);
+  if(t.id === "reset"){ SEL = []; PICK = null; ZM = null; GRP = undefined; SENS = {}; toggle(false); return render(); }
   const ex = t.closest && t.closest("[data-ex]"); if(ex){ ev.preventDefault(); ZM = null; SEL = ex.dataset.ex.split(","); PICK = null; return render(); }
   if(t.dataset && t.dataset.fact != null){ PICK = {f: +t.dataset.fact}; detail(); return reveal(); }
   const rel = t.closest && t.closest(".rel"), node = t.closest && t.closest(".node");
@@ -591,6 +604,7 @@ document.addEventListener("click", ev => { const t = ev.target;
 document.addEventListener("keydown", ev => { const node = ev.target.closest && ev.target.closest(".node, .bf");
   if(node && (ev.key === "Enter" || ev.key === " ")){ ev.preventDefault(); node.dispatchEvent(new MouseEvent("click", {bubbles: true})); } });
 document.querySelectorAll("#seg button").forEach(b => b.addEventListener("click", () => setView(b.dataset.v)));
+document.addEventListener("change", ev => { const t = ev.target; if(t.dataset && t.dataset.sens){ delete SENS["*"]; SENS[t.dataset.sens] = t.value; PICK = null; ZM = null; render(); } });
 VIEW === "map" ? setView("map") : render();
 </script>"""
 
@@ -620,9 +634,6 @@ def page(d):
 <input type="search" id="q" role="combobox" aria-expanded="false" aria-controls="panel" aria-label="Ajouter un pays, un groupe, un conflit ou une ressource" placeholder="Ajouter : pays, conflit, ressource…" autocomplete="off">
 <button type="button" id="reset" hidden>Tout effacer</button></div>
 <div id="panel" hidden><div id="groups"></div><p class="none" id="noq" hidden>Aucun acteur ne correspond.</p></div></div>
-<p class="scope" id="scope"></p>
-<div class="seg" id="sens" role="group" aria-label="Sens des dépendances" hidden><button type="button" data-s="dep">Dépend de</button><button type="button" data-s="four">Fournit</button><button type="button" data-s="tout">Tout</button></div>
-<p class="sug" id="sug"></p>
 <div id="empty"><div class="ex"><span class="quiet">Pour commencer :</span>{examples}</div></div>
 <div id="out" hidden>
 <div class="cols"><div class="main">
@@ -631,13 +642,12 @@ def page(d):
 <button type="button" id="grp" aria-pressed="false" hidden>Regrouper les camps</button>
 <div id="zoom" hidden><button type="button" data-z="in" aria-label="Zoomer">+</button><button type="button" data-z="out" aria-label="Dézoomer">−</button><button type="button" data-z="fit">Recadrer</button></div></div>
 <div class="stage"><div id="communs" hidden></div><svg id="schema" role="group" aria-label="Schéma des relations entre les acteurs choisis"></svg></div>
-<div class="legend" id="legend"></div>
-<p class="scope" id="aside"></p>
-<p class="sug" id="bridges"></p></div>
+<div class="legend" id="legend"></div></div>
 <aside class="side"><div id="detail" aria-live="polite"></div></aside></div>
-<p class="none" id="none"></p>
-<details class="all" id="all"></details>
 </div>
+<section id="more" hidden><h2>Élargir</h2><div id="widen"></div></section>
+<p class="none" id="none"></p>
+<details class="all" id="all" hidden></details>
 </main>"""
     body = body.replace("__ICO_GRAPH__", style.icon("graph", 16)).replace("__ICO_MAP__", style.icon("map", 16)).replace("__ICO_ORGS__", style.icon("orgs", 16))
     title = f"Croiser des acteurs : ce qui relie deux pays — {brand.NAME}"
