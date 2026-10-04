@@ -24,7 +24,7 @@ def dependencies():
     fournisseur (armes importées…) : {from, supplier, type, share, year, period, status, sources, note}. Hors calcul des blocs."""
     return _data().get("dependencies") or []
 
-DEPENDENCY_TYPES = {"arms": "armes", "gas": "gaz", "oil": "pétrole", "minerals": "minerais", "food": "denrées", "debt": "dette", "trade": "commerce", "chips": "puces", "electricity": "électricité"}
+DEPENDENCY_TYPES = {"arms": "armes", "gas": "gaz", "oil": "pétrole", "minerals": "minerais", "food": "denrées", "debt": "dette", "trade": "commerce", "chips": "puces", "electricity": "électricité", "transit": "transit"}
 
 TENSION_TYPES = {"war": "guerre", "sanctions": "sanctionne", "claims": "revendique un territoire de", "rivalry": "rivalité avec",
                  "trade_war": "guerre commerciale avec", "blockade": "entrave la navigation dans"}

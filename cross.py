@@ -136,7 +136,7 @@ CSS = """
 
 # Article de chaque acteur, pour les phrases du compte rendu « En bref » (« les États-Unis dépendent du Canada »).
 # Écrit à la main : il ne se devine pas (« Israël », « Cuba », « Taïwan » n'en prennent pas). validate.py signale un acteur absent.
-ART = {**dict.fromkeys(("GB DK VE QA GY CA MX BR YE MA somaliland SD RW ML BF NE PK rn hezbollah hamas pij kataib_hezbollah jnim "
+ART = {**dict.fromkeys(("JP GB DK VE QA GY CA MX BR YE MA somaliland SD RW ML BF NE PK rn hezbollah hamas pij kataib_hezbollah jnim "
                         "polisario fla").split(), "le"),
        **dict.fromkeys("RU CN KP FR SE TR LY SY SO CD MM".split(), "la"),
        **dict.fromkeys("IR UA IN DE AR DZ EG SA ER ET EU UN afd lna m23".split(), "l'"),
@@ -223,12 +223,13 @@ const DEP_FR = {arms: "d'armes", gas: "de gaz", oil: "de pétrole"};
 const depWhat = x => x.resource ? (/^[aeiouyéèh]/i.test(x.resource) ? "d'" : "de ") + x.resource : DEP_FR[x.type] || x.type;
 const pct = x => String(x.share).replace(".", ",") + " %";
 const depText = x => `${pct(x)} ${x.type === "debt" ? "de sa dette publique extérieure"
+  : x.type === "transit" ? "de ses importations " + depWhat(x) + " passent par ce détroit"
   : x.type === "chips" ? "de la capacité mondiale de production des puces les plus avancées"
   : x.type === "trade" ? (x.direction === "exports" ? "de ses exportations" : "de ses importations de marchandises")
   : "de ses importations " + depWhat(x)} (${esc(x.period || x.year)})`;
 // pictogrammes des dépendances (Lucide, ISC) : la ressource se lit d'un coup d'œil, le chiffre reste à côté
 const DEP_ICON = __DEP_ICONS__;
-const DEP_NAME = {oil: "pétrole", gas: "gaz", arms: "armes", minerals: "minerais", food: "denrées", debt: "dette", trade: "commerce", chips: "puces", electricity: "électricité"};
+const DEP_NAME = {oil: "pétrole", gas: "gaz", arms: "armes", minerals: "minerais", food: "denrées", debt: "dette", trade: "commerce", chips: "puces", electricity: "électricité", transit: "transit par un détroit"};
 const depIcon = (t, size = 14) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="${DEP}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${DEP_ICON[t] || ""}</svg>`;
 const depShort = x => `${x.type === "debt" ? "dette" : x.type === "trade" ? (x.direction === "exports" ? "exportations" : "importations")
   : x.resource || {arms:"armes", gas:"gaz", oil:"pétrole"}[x.type] || x.type} ${pct(x)}`;
@@ -242,7 +243,7 @@ const ARROW = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" strok
 
 // ---------- Sélection : jetons « US » (acteur) ou « d:ukraine » (conflit), gardés dans l'URL ----------
 // Ressource (« r:oil ») : ajoute les pays liés aux acteurs choisis par une dépendance de ce type, et seulement ces dépendances-là
-const RES_FR = {arms: "Armes", gas: "Gaz", oil: "Pétrole", minerals: "Minerais", food: "Denrées", debt: "Dette", trade: "Commerce", chips: "Puces", electricity: "Électricité"};
+const RES_FR = {arms: "Armes", gas: "Gaz", oil: "Pétrole", minerals: "Minerais", food: "Denrées", debt: "Dette", trade: "Commerce", chips: "Puces", electricity: "Électricité", transit: "Transit par un détroit"};
 const RES = Object.fromEntries(Object.keys(RES_FR).filter(t => D.dependencies.some(x => x.type === t)).map(t => ["r:" + t, t]));
 let SEL = (new URLSearchParams(location.search).get("e") || "").split(",").filter(t => D.actors[t] || DOS[t] || RES[t]);
 // sens des dépendances, PAR ressource : « &s=oil:four,arms:dep » ; l'ancienne forme « &s=four » vaut pour toutes (clé « * »)
@@ -573,7 +574,7 @@ const plain = k => DOS[k] ? DOS[k].title : RES[k] ? RES_FR[RES[k]] : D.actors[k]
 const CAT_OF = Object.fromEntries(CATS.flatMap(([t, items]) => items.map(k => [k, t])));
 // autres mots qui mènent à la même entité (« usa », « ue »…)
 const ALIAS = {US: "usa etats unis amerique", GB: "angleterre grande bretagne uk", EU: "ue europe", AE: "eau emirats", CD: "congo rdc", KP: "coree", NL: "hollande",
-  spacex: "starlink musk", rsf: "fsr", jnim: "al qaida sahel", MM: "myanmar", "r:chips": "semi-conducteurs puces tsmc", "r:minerals": "terres rares potasse uranium lithium", "r:food": "ble cereales", UN: "nations unies casques bleus conseil de securite", ormuz: "hormuz golfe persique", bab_el_mandeb: "mer rouge suez aden"};
+  spacex: "starlink musk", rsf: "fsr", jnim: "al qaida sahel", MM: "myanmar", "r:chips": "semi-conducteurs puces tsmc", "r:minerals": "terres rares potasse uranium lithium", "r:food": "ble cereales", JP: "japan tokyo", UN: "nations unies casques bleus conseil de securite", ormuz: "hormuz golfe persique", bab_el_mandeb: "mer rouge suez aden"};
 const hay = k => flat(plain(k)) + " " + (ALIAS[k] || "");
 // sans rien taper : quelques entrées courantes, pas les 80 — la liste complète est derrière « Voir toute la liste »
 const COMMON = [...Object.keys(DOS), "US", "CN", "RU", "EU", "IR", "IL", "r:arms", "r:oil"].filter(k => DOS[k] || RES[k] || D.actors[k]);

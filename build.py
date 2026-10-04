@@ -485,6 +485,7 @@ const depWhat = x => x.resource ? (/^[aeiouyéèh]/i.test(x.resource) ? "d'" : "
 const depOn = x => checked("dep", "on") && x.status !== "ended";
 const depIcon = (t, size = 14) => `<svg class="dep-ico" viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="${DEP.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px">${D.dep_icons[t] || ""}</svg>`;
 const depText = x => `${String(x.share).replace(".", ",")} % ${x.type === "debt" ? "de sa dette publique extérieure"
+  : x.type === "transit" ? "de ses importations " + depWhat(x) + " passent par ce détroit"
   : x.type === "chips" ? "de la capacité mondiale de production des puces les plus avancées"
   : x.type === "trade" ? (x.direction === "exports" ? "de ses exportations" : "de ses importations de marchandises")
   : "de ses importations " + depWhat(x)} (${x.period || x.year})`;
