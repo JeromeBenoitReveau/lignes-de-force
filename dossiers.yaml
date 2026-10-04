@@ -158,7 +158,7 @@ dossiers:
     council:
       - date: "2024-11"
         text: "Veto de la Russie contre un texte exigeant l'arrêt des attaques contre les civils et un cessez-le-feu ; 14 voix pour sur 15"
-        source: "Nations unies, la Russie met son veto à une résolution sur la protection des civils au Soudan (SC/15901, nov. 2024) — https://press.un.org/en/2024/sc15901.doc.htm"
+        source: "Security Council Report, Soudan : vote sur un projet de résolution, avec le résultat du vote (nov. 2024) — https://www.securitycouncilreport.org/whatsinblue/2024/11/103323.php"
 
     timeline:
       - date: "2019"
@@ -764,8 +764,9 @@ dossiers:
         text: >-
           Le Mali est dirigé par Assimi Goïta, arrivé au pouvoir par le coup d'État de 2020, et le Burkina Faso par le
           capitaine Ibrahim Traoré depuis 2022. Avec le Niger, ils ont signé un pacte de défense mutuelle en 2023 et
-          quitté la CEDEAO, l'organisation des pays d'Afrique de l'Ouest, en janvier 2025. Leurs aviations ont mené des
-          frappes communes au Mali après l'offensive d'avril 2026.
+          quitté la CEDEAO, l'organisation des pays d'Afrique de l'Ouest, en janvier 2025. Après l'offensive
+          d'avril 2026, les trois pays auraient mené des frappes aériennes coordonnées au Mali, selon le Security
+          Council Report.
         sources:
           - "Council on Foreign Relations, Global Conflict Tracker : l'extrémisme violent au Sahel (juill. 2026) — https://www.cfr.org/global-conflict-tracker/conflict/violent-extremism-sahel"
           - "Security Council Report, Afrique de l'Ouest et Sahel, prévisions de juillet 2026 — https://www.securitycouncilreport.org/monthly-forecast/2026-07/west-africa-and-the-sahel-17.php"
