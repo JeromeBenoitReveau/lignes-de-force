@@ -210,6 +210,9 @@ def check_dossiers(dossiers, actors, edges):
         for i, st in enumerate(x.get("stakes") or []):
             if not has_url(st.get("sources")):
                 errors.append(f"dossier {k} : enjeu {st.get('label', i)} sans source avec URL")
+        for t in x.get("council") or []:
+            if not re.fullmatch(r"\d{4}(-\d{2})?", str(t.get("date"))) or not t.get("text") or not has_url([t.get("source")]):
+                errors.append(f"dossier {k} : Conseil de sécurité, entrée « {t.get('text')} » : date AAAA(-MM), texte et source avec URL requis")
         for t in x.get("timeline") or []:
             if not re.fullmatch(r"\d{4}(-\d{2})?", str(t.get("date"))):
                 errors.append(f"dossier {k} : date de frise « {t.get('date')} » au format AAAA ou AAAA-MM")

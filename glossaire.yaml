@@ -225,6 +225,11 @@ terms:
     definition: Le « Conseil de la paix » créé par le plan américain pour Gaza, présidé par Donald Trump, qui supervise la reconstruction et la transition du territoire.
 
   # ---------- Médiations et personnes ----------
+  - id: mission-de-paix
+    term: mission de paix
+    aliases: [missions de paix, casques bleus, Casques bleus]
+    definition: Des soldats et des observateurs envoyés par l'ONU, les « casques bleus », pour surveiller un cessez-le-feu ou séparer deux adversaires. Ils ne soutiennent aucun camp.
+    example: La FINUL est déployée dans le sud du Liban depuis 1978.
   - id: mediation
     term: médiation
     aliases: [médiateur, médiateurs, médiatrice]

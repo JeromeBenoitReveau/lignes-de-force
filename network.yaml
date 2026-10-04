@@ -88,6 +88,7 @@ actors:
   NE: {name: Niger, kind: state}
   MM: {name: Birmanie (junte militaire), kind: state}
   EU: {name: Union européenne, kind: bloc, coords: [50.85, 4.35]}  # Bruxelles, pour la carte
+  UN: {name: ONU, kind: bloc, kind_label: organisation internationale, coords: [40.75, -73.97]}  # siège à New York ; n'est PAS un bloc d'influence : aucun membre rattaché (member_of), aucun soutien
   # partis et personnalités (calque « détail »)
   afd: {name: AfD (Alternative für Deutschland), kind: party, base: DE,
         note: "Classée « extrémiste de droite » par le renseignement intérieur en mai 2025 ; classement suspendu par le tribunal de Cologne en février 2026 dans l'attente du jugement, le parti reste surveillé comme « suspect »",
@@ -695,6 +696,23 @@ tensions:
 # Médiations : un acteur qui négocie ou accueille des pourparlers entre deux autres. Ni soutien ni tension :
 # hors calcul des blocs. Mêmes règles que les arêtes (sources avec URL, dates, statut, confiance) ; « why » attribué.
 mediations:
+  # form: mission = mission de paix de l'ONU (casques bleus) : elle s'interpose entre deux parties, elle ne soutient aucun camp
+  - {mediator: UN, between: [IL, hezbollah], form: mission, since: "1978-03", status: active, confidence: high,
+     sources: ["Opérations de paix de l'ONU, missions en cours (mai 2026) — https://peacekeeping.un.org/en/where-we-operate",
+               "Opérations de paix de l'ONU, fiche de la mission — https://peacekeeping.un.org/en/mission/unifil",
+               "Security Council Report, le Conseil de sécurité en 2025 et l'année à venir (janv. 2026) — https://www.securitycouncilreport.org/monthly-forecast/2026-01/in-hindsight-the-security-council-in-2025-and-the-year-ahead.php"],
+     verified: 2026-10,
+     note: "FINUL, Force intérimaire des Nations unies au Liban : déployée dans le sud du Liban, le long de la frontière avec Israël. Le Conseil de sécurité a prolongé son mandat une dernière fois, jusqu'au 31 décembre 2026 (résolution 2790)"}
+  - {mediator: UN, between: [IL, SY], form: mission, since: "1974-06", status: active, confidence: high,
+     sources: ["Opérations de paix de l'ONU, missions en cours (mai 2026) — https://peacekeeping.un.org/en/where-we-operate",
+               "Opérations de paix de l'ONU, fiche de la mission — https://peacekeeping.un.org/en/mission/undof"],
+     verified: 2026-10,
+     note: "FNUOD, Force des Nations unies chargée d'observer le désengagement : elle surveille le cessez-le-feu entre Israël et la Syrie sur le plateau du Golan"}
+  - {mediator: UN, between: [MA, polisario], form: mission, since: "1991-04", status: active, confidence: high,
+     sources: ["Opérations de paix de l'ONU, missions en cours (mai 2026) — https://peacekeeping.un.org/en/where-we-operate",
+               "Opérations de paix de l'ONU, fiche de la mission — https://peacekeeping.un.org/en/factsheet/minurso"],
+     verified: 2026-10,
+     note: "MINURSO, Mission des Nations unies pour l'organisation d'un référendum au Sahara occidental : elle surveille le cessez-le-feu ; le référendum prévu n'a jamais eu lieu"}
   - {mediator: US, between: [UA, RU], since: "2025", status: active, confidence: high,
      sources: ["Bibliothèque de la Chambre des communes, « Ukraine : a new push for peace » (sept. 2026) — https://commonslibrary.parliament.uk/research-briefings/cbp-12198/",
                "Al Jazeera, Poutine reçoit les émissaires américains (sept. 2026) — https://www.aljazeera.com/news/2026/9/5/russias-putin-meets-us-envoys-to-discuss-trump-proposal-to-end-ukraine-war"],

@@ -83,7 +83,7 @@ def people_block(dos, d, g, cite):
             and any(a in sides[0] for a in m["between"]) and any(a in sides[1] for a in m["between"])]
     name = lambda a: e(d["actors"][a]["name"])
     med_rows = "".join(f"""<div class="med">{flag(m["mediator"], d)}<div><b>{name(m["mediator"])}</b>
-  <span class="quiet">entre {name(m["between"][0])} et {name(m["between"][1])}{f", depuis {e(fr_date(m['since']))}" if m.get("since") else ""}</span>
+  <span class="quiet">{"mission de paix " if m.get("form") == "mission" else ""}entre {name(m["between"][0])} et {name(m["between"][1])}{f", depuis {e(fr_date(m['since']))}" if m.get("since") else ""}</span>
   <p>{glossed(m.get("why") or m.get("note", ""), g)}{cite(m["sources"])}</p>
   {f'<p class="quiet">{glossed(m["note"], g)}</p>' if m.get("why") and m.get("note") else ""}</div></div>""" for m in meds)
     cards, seen = [], set()
@@ -350,6 +350,7 @@ def page(dos, d):
   {backers_block(bs, d, g, cite, len(s["actors"]) > 1) or '<p style="color:var(--graphite)">Aucun soutien documenté.</p>'}</div>"""
 
     events = [(str(t["date"]), glossed(t["text"], g) + cite([t["source"]])) for t in dos.get("timeline", [])]
+    council = sorted(((str(t["date"]), glossed(t["text"], g) + cite([t["source"]])) for t in dos.get("council", [])), key=lambda ev: ev[0])
     events.sort(key=lambda ev: ev[0])
 
     frac = fractures(dos, d, g, cite)
@@ -383,6 +384,8 @@ def page(dos, d):
 <div><h2>Le coût humain</h2><div class="card block"><p>{glossed(dos["toll"]["text"], g)}{cite(dos["toll"].get("sources"))}</p></div></div>
 <div><h2>Où en est-on</h2><div class="card block"><p>{glossed(dos["now"]["text"], g)}{cite(dos["now"].get("sources"))}</p></div></div>
 </section>
+
+{f'<section class="s"><h2>Au Conseil de sécurité de l’ONU</h2><div class="card block"><p class="quiet" style="margin:0 0 8px">Les cinq membres permanents (États-Unis, Russie, Chine, France, Royaume-Uni) peuvent chacun bloquer une décision : c’est le veto.</p><ol class="tl">{"".join(f"<li><time>{e(fr_date(dt))}</time><span>{txt}</span></li>" for dt, txt in council)}</ol></div></section>' if council else ""}
 
 <section class="s"><h2>Comment on en est arrivé là</h2>
 <div class="card block"><p>{glossed(dos["origins"]["text"], g)}{cite(dos["origins"].get("sources"))}</p>

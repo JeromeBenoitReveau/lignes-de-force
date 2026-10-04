@@ -37,10 +37,17 @@ CSS = """
 #groups .hits button:hover,#groups .hits button.on{background:color-mix(in srgb,var(--ink) 6%,var(--land));border-color:transparent}
 #groups .more{border:0;padding:4px 0;margin:2px 0 8px;color:var(--graphite);text-decoration:underline dashed var(--peach) 1px;text-underline-offset:3px}
 /* « En bref » : compte rendu assemblé par gabarits à partir des faits du graphe, chaque morceau ouvre sa fiche */
-#brief{margin:16px 0 0;max-width:46em}#brief:empty{display:none}
-#brief p{margin:0 0 7px;font-size:15.5px;line-height:1.55}
-#brief .bf{cursor:pointer;text-decoration:underline dotted var(--graphite) 1px;text-underline-offset:3px}
-#brief .bf:hover,#brief .bf:focus-visible{text-decoration:underline solid var(--peach) 1px}#brief .why{color:var(--graphite)}
+.brief{margin:16px 0 0;max-width:46em}.brief:empty{display:none}
+.brief p{margin:0 0 7px;font-size:15.5px;line-height:1.55}
+.brief .bf{cursor:pointer;text-decoration:underline dotted var(--graphite) 1px;text-underline-offset:3px}
+.brief .bf:hover,.brief .bf:focus-visible{text-decoration:underline solid var(--peach) 1px}.brief .why{color:var(--graphite)}
+/* grand écran : « En bref » vit dans le panneau de DROITE, pour laisser la largeur au schéma ; un clic sur un trait le remplace par la fiche du fait.
+   Écran étroit : il reste au-dessus du schéma, et le panneau (sous le schéma) ne le répète pas. */
+#detail .brief{margin:0 0 14px}#detail .brief p{font-size:15px}
+.back{font:14px var(--sans);color:var(--graphite);background:none;border:0;padding:0;margin:0 0 12px;cursor:pointer;text-decoration:underline dashed var(--peach) 1px;text-underline-offset:3px}
+.back::before{content:"‹ "}.back:hover{color:var(--ink);text-decoration-style:solid}
+@media (min-width:1000px){.main > #brief{display:none}}
+@media (max-width:999px){#detail .brief,.back{display:none}}
 #groups h3{font:500 13.5px var(--sans);color:var(--graphite);margin:14px 0 7px}
 #groups .g{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
 #groups button{display:inline-flex;align-items:center;gap:6px;text-align:left;font:14px var(--sans);color:var(--ink);background:none;border:1px solid var(--mist);border-radius:4px;padding:4px 9px;cursor:pointer}
@@ -54,7 +61,7 @@ CSS = """
 .chip select{font:13.5px var(--sans);color:var(--ink);background:none;border:0;border-bottom:1px dashed var(--peach);padding:1px 2px;cursor:pointer;max-width:13.5em}
 .chip .dep-ico{color:var(--graphite)}
 #more{margin:26px 0 0;padding:16px 0 0;border-top:1px solid var(--mist)}#more[hidden]{display:none}
-#more h2,#brief h2{font:500 19px/1.3 var(--serif);margin:0 0 8px}
+#more h2,.brief h2{font:500 19px/1.3 var(--serif);margin:0 0 8px}
 #widen .row{display:grid;grid-template-columns:92px 1fr;gap:2px 10px;align-items:baseline;margin:0 0 4px}
 #widen .k{font-size:13.5px;color:var(--graphite)}
 .add{display:inline-flex;align-items:center;gap:6px;text-align:left;font:15px var(--sans);color:var(--ink);background:none;border:0;padding:4px 0;margin:0 18px 0 0;cursor:pointer}
@@ -132,7 +139,7 @@ CSS = """
 ART = {**dict.fromkeys(("GB DK VE QA GY CA MX BR YE MA somaliland SD RW ML BF NE PK rn hezbollah hamas pij kataib_hezbollah jnim "
                         "polisario fla").split(), "le"),
        **dict.fromkeys("RU CN KP FR SE TR LY SY SO CD MM".split(), "la"),
-       **dict.fromkeys("IR UA IN DE AR DZ EG SA ER ET EU afd lna m23".split(), "l'"),
+       **dict.fromkeys("IR UA IN DE AR DZ EG SA ER ET EU UN afd lna m23".split(), "l'"),
        **dict.fromkeys("US NL AE rsf houthis".split(), "les"),
        **dict.fromkeys("IL TW CU OM DJ trump vance musk spacex palantir alshabab".split(), ""),
        "ormuz": "le", "bab_el_mandeb": "le"}
@@ -262,8 +269,8 @@ function facts(ids){ const S = new Set(ids), F = [], extra = [];   // extra : pa
   D.mediations.forEach(m => { if(!m.between.every(b => S.has(b))) return;
     const out = !S.has(m.mediator);   // médiateur hors sélection : pas de nœud en plus, le fait reste listé et signalé sous le schéma
     F.push({group: "mediation", out, links: out ? [] : m.between.map(b => [m.mediator, b]), color: "var(--graphite)", width: 1.6, dash: "3 5", arrow: false,
-      nodes: out ? m.between : [m.mediator, ...m.between], mediator: m.mediator, since: m.since, kind: "Médiation", raw: m,
-      html: `<div class="who">${who(m.mediator)}<span class="k">médiation entre</span>${who(m.between[0])}<span class="k">et</span>${who(m.between[1])}</div>
+      nodes: out ? m.between : [m.mediator, ...m.between], mediator: m.mediator, since: m.since, kind: m.form === "mission" ? "Mission de paix" : "Médiation", raw: m,
+      html: `<div class="who">${who(m.mediator)}<span class="k">${m.form === "mission" ? "mission de paix entre" : "médiation entre"}</span>${who(m.between[0])}<span class="k">et</span>${who(m.between[1])}</div>
         <p>${since(m)}${m.why ? "Pourquoi : " + esc(m.why) : ""}</p>${tail(m)}`}); });
   ids.forEach(p => (D.actors[p].riparian || []).forEach(r => { if(!S.has(r)) return; const a = D.actors[p];
     F.push({group: "riparian", links: [[r, p]], color: "var(--graphite)", width: 1.4, dash: null, arrow: false, nodes: [r, p], kind: "Riverain", raw: {state: r, passage: p},
@@ -310,8 +317,8 @@ function brief(F){ const P = [], by = g => F.filter(f => f.group === g), dp = y 
       + (tos.length > 4 ? ` D'autres soutiens sont sur le schéma.` : "") + ` <span class="why">Le pourquoi de chaque soutien s'affiche au clic.</span>`); }
   const R = by("riparian"); if(R.length){ const g = {}; R.forEach(f => (g[f.raw.passage] = g[f.raw.passage] || []).push(f));
     P.push(Object.entries(g).map(([p, fs]) => `${fs.length > 1 ? "Riverains" : "Riverain"} ${deN(p)} : ${et(fs.map(f => bf(f, the(f.raw.state))))}.`).join(" ")); }
-  if(M.length){ const g = {}; M.forEach(f => (g[f.raw.between.join("|")] = g[f.raw.between.join("|")] || []).push(f));   // plusieurs médiateurs pour une même paire : une seule phrase
-    P.push(Object.values(g).map(fs => `Médiation entre ${the(fs[0].raw.between[0])} et ${the(fs[0].raw.between[1])} : ${et(fs.map(f => bf(f, the(f.raw.mediator))))}.`).join(" ")); }
+  if(M.length){ const g = {}; M.forEach(f => { const k = (f.raw.form || "") + "|" + f.raw.between.join("|"); (g[k] = g[k] || []).push(f); });   // plusieurs médiateurs pour une même paire : une seule phrase
+    P.push(Object.values(g).map(fs => `${fs[0].raw.form === "mission" ? "Mission de paix" : "Médiation"} entre ${the(fs[0].raw.between[0])} et ${the(fs[0].raw.between[1])} : ${et(fs.map(f => bf(f, the(f.raw.mediator))))}.`).join(" ")); }
   if(L.length){ const g = {}; L.forEach(f => { const x = f.raw; ((g[x.from] = g[x.from] || {})[x.supplier] = g[x.from][x.supplier] || []).push(f); });
     const top = fs => Math.max(...fs.map(f => f.raw.share)), froms = Object.keys(g).sort((a, b) => Object.keys(g[b]).length - Object.keys(g[a]).length), shown = froms.slice(0, 4);
     P.push(shown.map(a => { const sup = Object.keys(g[a]).sort((x, y) => top(g[a][y]) - top(g[a][x])), keep = sup.slice(0, 3);
@@ -502,12 +509,12 @@ function render(){ const ids = scope(), {F, extra, sens} = facts(ids), ok = ids.
   $("#empty").hidden = SEL.length > 0; $("#none").innerHTML = ""; $("#all").hidden = !ok; $("#out").hidden = !ok; $(".cross").classList.toggle("has", ok);
   history.replaceState(null, "", location.pathname + (SEL.length ? "?e=" + SEL.join(",") + (VIEW === "map" ? "&v=carte" : VIEW === "communs" ? "&v=communs" : "") + (GRP == null ? "" : "&g=" + (GRP ? 1 : 0)) + (rs.some(t => SENS[RES[t]] || SENS["*"]) ? "&s=" + rs.filter(t => SENS[RES[t]] || SENS["*"]).map(t => RES[t] + ":" + (SENS[RES[t]] || SENS["*"])).join(",") : "") : ""));
   document.querySelectorAll("#seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === VIEW));
-  $("#brief").innerHTML = ok ? brief(F) : "";
+  window.BRIEF = ok ? brief(F) : ""; $("#brief").innerHTML = window.BRIEF;
   if(!ok) return;
   draw(ids, extra, F); communs(ids);
   const flat2 = VIEW === "communs";
   $("#schema").style.display = flat2 ? "none" : ""; $("#communs").hidden = VIEW !== "communs"; if(flat2) $("#zoom").hidden = true;
-  ["#legend", "#detail"].forEach(q => $(q).style.display = VIEW === "communs" ? "none" : "");
+  $("#legend").style.display = VIEW === "communs" ? "none" : "";   // le panneau de droite reste : il porte « En bref »
   BR = bridges(ids, extra, F); widen();
   const has = g => F.some(f => f.group === g && !f.out), sup = [...new Set(F.filter(f => f.group === "support").map(f => f.color))];
   $("#legend").innerHTML = [has("tension") && [...new Set(F.filter(f => f.group === "tension").map(f => f.color))].map(c => { const t = Object.values(TENSION).find(x => x.color === c);
@@ -551,8 +558,8 @@ function detail(){ const F = window.FACTS, svg = $("#schema"), box = $("#detail"
   svg.querySelectorAll(".rel").forEach(g => g.classList.toggle("on", RELS[+g.dataset.r] && RELS[+g.dataset.r].fids.some(i => on.some(f => f.id === i))));
   const near = new Set(on.flatMap(f => f.nodes).map(DISP)); if(PICK && PICK.n) near.add(PICK.n);
   svg.querySelectorAll(".node").forEach(g => g.classList.toggle("on", near.has(g.dataset.n)));
-  if(!PICK){ box.innerHTML = `<p class="none" style="margin:0">${F.length ? "Cliquez un trait ou un acteur pour lire le fait, sa date et ses sources." : "Aucun fait entre ces acteurs dans le graphe."}</p>`; return; }
-  box.innerHTML = (camp ? `<p class="none" style="margin:0 0 12px">${esc(camp.name)} : ${camp.members.map(nm).join(", ")}. Les faits entre eux sont listés ici, pas dessinés.</p>` : "")
+  if(!PICK){ box.innerHTML = `<div class="brief">${window.BRIEF || ""}</div><p class="none" style="margin:0">${F.length ? "Cliquez un trait ou un acteur pour lire le fait, sa date et ses sources." : "Aucun fait entre ces acteurs dans le graphe."}</p>`; return; }
+  box.innerHTML = `<button type="button" class="back" data-back="1">Retour au résumé</button>` + (camp ? `<p class="none" style="margin:0 0 12px">${esc(camp.name)} : ${camp.members.map(nm).join(", ")}. Les faits entre eux sont listés ici, pas dessinés.</p>` : "")
     + (on.length ? on.map(card).join("") : `<p class="none" style="margin:0 0 12px">Aucun fait entre ${camp ? "ce camp" : nm(PICK.n)} et les autres acteurs choisis.</p>`)
     + (PICK.n && !camp ? `<p class="fact m"><a href="vue-d-ensemble.html#graphe:${esc(PICK.n)}">Voir toutes les relations de ${nm(PICK.n)} dans la vue d'ensemble</a></p>` : ""); }
 
@@ -566,7 +573,7 @@ const plain = k => DOS[k] ? DOS[k].title : RES[k] ? RES_FR[RES[k]] : D.actors[k]
 const CAT_OF = Object.fromEntries(CATS.flatMap(([t, items]) => items.map(k => [k, t])));
 // autres mots qui mènent à la même entité (« usa », « ue »…)
 const ALIAS = {US: "usa etats unis amerique", GB: "angleterre grande bretagne uk", EU: "ue europe", AE: "eau emirats", CD: "congo rdc", KP: "coree", NL: "hollande",
-  spacex: "starlink musk", rsf: "fsr", jnim: "al qaida sahel", MM: "myanmar", "r:chips": "semi-conducteurs puces tsmc", "r:minerals": "terres rares potasse uranium lithium", "r:food": "ble cereales", ormuz: "hormuz golfe persique", bab_el_mandeb: "mer rouge suez aden"};
+  spacex: "starlink musk", rsf: "fsr", jnim: "al qaida sahel", MM: "myanmar", "r:chips": "semi-conducteurs puces tsmc", "r:minerals": "terres rares potasse uranium lithium", "r:food": "ble cereales", UN: "nations unies casques bleus conseil de securite", ormuz: "hormuz golfe persique", bab_el_mandeb: "mer rouge suez aden"};
 const hay = k => flat(plain(k)) + " " + (ALIAS[k] || "");
 // sans rien taper : quelques entrées courantes, pas les 80 — la liste complète est derrière « Voir toute la liste »
 const COMMON = [...Object.keys(DOS), "US", "CN", "RU", "EU", "IR", "IL", "r:arms", "r:oil"].filter(k => DOS[k] || RES[k] || D.actors[k]);
@@ -591,6 +598,7 @@ document.addEventListener("click", ev => { const t = ev.target;
   if($("#schema").dataset.dragged){ delete $("#schema").dataset.dragged; if(t.closest && t.closest("#schema")) return; }
   const add = t.closest && t.closest("[data-add]"); if(add){ ZM = null; if(!SEL.includes(add.dataset.add)) SEL.push(add.dataset.add); PICK = null; $("#q").value = ""; HIT = 0; return render(); }
   if(t.dataset && t.dataset.full){ FULL = true; return panel(); }
+  if(t.dataset && t.dataset.back){ PICK = null; return detail(); }
   if(!$("#panel").hidden && !(t.closest && (t.closest("#panel") || t.closest(".pick") || t.closest("#more")))) toggle(false);
   if(t.id === "reset"){ SEL = []; PICK = null; ZM = null; GRP = undefined; SENS = {}; toggle(false); return render(); }
   const ex = t.closest && t.closest("[data-ex]"); if(ex){ ev.preventDefault(); ZM = null; SEL = ex.dataset.ex.split(","); PICK = null; return render(); }
@@ -637,7 +645,7 @@ def page(d):
 <div id="empty"><div class="ex"><span class="quiet">Pour commencer :</span>{examples}</div></div>
 <div id="out" hidden>
 <div class="cols"><div class="main">
-<div id="brief" aria-live="polite"></div>
+<div id="brief" class="brief" aria-live="polite"></div>
 <div class="bar"><div class="seg" id="seg" role="group" aria-label="Affichage"><button type="button" data-v="schema">__ICO_GRAPH__<span>Schéma</span></button><button type="button" data-v="map">__ICO_MAP__<span>Carte</span></button><button type="button" data-v="communs">__ICO_ORGS__<span>Points communs</span></button></div>
 <button type="button" id="grp" aria-pressed="false" hidden>Regrouper les camps</button>
 <div id="zoom" hidden><button type="button" data-z="in" aria-label="Zoomer">+</button><button type="button" data-z="out" aria-label="Dézoomer">−</button><button type="button" data-z="fit">Recadrer</button></div></div>

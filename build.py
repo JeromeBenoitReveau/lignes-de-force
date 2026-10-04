@@ -473,7 +473,7 @@ const tensionsVisible = () => TS.map((t,i) => ({id:"t"+i, hidden: !tensionOn(t) 
 // ---------- Médiations (clé mediations de network.yaml) : qui négocie entre qui ; ni soutien ni tension ----------
 const MEDS = D.mediations || [], MED = {color: "#8e9aaf", dashes: [2, 5], width: 1.8};
 const medOn = m => checked("med", "on") && activeAt(m, YEAR());
-const medTitle = m => `${(D.actors[m.mediator]||{}).name} : médiation entre ${m.between.map(b => (D.actors[b]||{}).name).join(" et ")} (${dated(m)})`;
+const medTitle = m => `${(D.actors[m.mediator]||{}).name} : ${m.form === "mission" ? "mission de paix" : "médiation"} entre ${m.between.map(b => (D.actors[b]||{}).name).join(" et ")} (${dated(m)})`;
 const medEdges = MEDS.flatMap((m, i) => m.between.map(b => ({id: `m${i}-${b}`, from: m.mediator, to: b, arrows: "", physics: false,
   width: MED.width, dashes: MED.dashes, color: {color: MED.color, opacity: 1}, smooth: {type: "curvedCCW", roundness: .12},
   hidden: true, title: medTitle(m)})));
@@ -961,7 +961,7 @@ function show(id){
   if(map) highlightLinks(id);
   const iso = (a.kind==="state" || a.kind==="bloc") ? id : a.base;
   const p = D.profiles[iso];
-  let h = `<h1>${nm(id)}</h1><div class="mute">${esc(KIND[a.kind]||a.kind)}${a.base&&a.kind!=="state"?" · "+nm(a.base)+" ("+esc(a.base)+")":""}${(a.member_of||[]).length?" · membre : "+a.member_of.map(nm).join(", "):""}</div>`;
+  let h = `<h1>${nm(id)}</h1><div class="mute">${esc(a.kind_label||KIND[a.kind]||a.kind)}${a.base&&a.kind!=="state"?" · "+nm(a.base)+" ("+esc(a.base)+")":""}${(a.member_of||[]).length?" · membre : "+a.member_of.map(nm).join(", "):""}</div>`;
   if(D.people[id]) h = `<img src="${safeUrl(D.people[id].thumb)}" alt="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">` + h;
   h += leaderLine(id);
   if(blocLine(id)) h += `<p class="mute">${blocLine(id)}</p>`;
@@ -989,8 +989,8 @@ function show(id){
   const tens = TS.filter(t => (t.from===id || t.to===id) && t.status!=="ended");
   const meds = MEDS.filter(m => m.mediator === id || m.between.includes(id));
   if(meds.length) h += `<h2>Médiations${Q("mediation")}</h2>` + meds.map(m => `<div class="rel">${m.mediator === id
-      ? `Médiateur entre ${m.between.map(b => `<b data-id="${esc(b)}">${nm(b)}</b>`).join(" et ")}`
-      : `<b data-id="${esc(m.mediator)}">${nm(m.mediator)}</b> négocie avec ${m.between.filter(b => b !== id).map(b => `<b data-id="${esc(b)}">${nm(b)}</b>`).join("")}`}
+      ? `${m.form === "mission" ? "Mission de paix" : "Médiateur"} entre ${m.between.map(b => `<b data-id="${esc(b)}">${nm(b)}</b>`).join(" et ")}`
+      : `<b data-id="${esc(m.mediator)}">${nm(m.mediator)}</b> ${m.form === "mission" ? "déploie une mission de paix, face à" : "négocie avec"} ${m.between.filter(b => b !== id).map(b => `<b data-id="${esc(b)}">${nm(b)}</b>`).join("")}`}
     ${m.why ? `<div>${esc(m.why)}</div>` : ""}<div class="mute">${esc(dated(m))}. ${m.note ? esc(m.note) + ". " : ""}Sources : ${(m.sources||[]).map(src).join(", ")}</div></div>`).join("");
   if(tens.length) h += `<h2>Tensions${Q("tension")}</h2>` + tens.map(t => { const other = t.from===id ? t.to : t.from, s = TENSION[t.type];
     const verb = t.type==="sanctions" ? (t.from===id ? "sanctionne" : "sanctionné par") : t.type==="claims" ? (t.from===id ? "revendique un territoire de" : "territoire revendiqué par")

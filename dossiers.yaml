@@ -9,6 +9,7 @@
 #             les dirigeants des camps et les médiations (network.yaml) s'y ajoutent d'eux-mêmes
 # map       : carte d'ouverture ; sans « regions », les pays de chaque camp sont colorés (map.countries pour les préciser)
 # stakes    : les enjeux concrets ; timeline : dates AAAA ou AAAA-MM
+# council   : « Au Conseil de sécurité » : vetos et résolutions adoptées [{date, text, source}] (facultatif)
 # history   : parallèles historiques ET leurs limites, attribués à des historiens (facultatif)
 # (vocabulaire : glossaire.yaml, commun à tout le site ; les termes y sont expliqués au survol partout)
 
@@ -152,6 +153,12 @@ dossiers:
       sources:
         - "Security Council Report, prévisions de septembre 2026 — https://www.securitycouncilreport.org/monthly-forecast/2026-09/sudan-41.php"
         - "International Crisis Group, « Divided Sudan, Elusive Peace » (avr. 2026) — https://www.crisisgroup.org/brf/africa/sudan-egypt-saudi-arabia-united-arab-emirates-united-states/b211-divided-sudan-elusive-peace"
+
+    # Au Conseil de sécurité de l'ONU : vetos et résolutions adoptées sur ce conflit
+    council:
+      - date: "2024-11"
+        text: "Veto de la Russie contre un texte exigeant l'arrêt des attaques contre les civils et un cessez-le-feu ; 14 voix pour sur 15"
+        source: "Nations unies, la Russie met son veto à une résolution sur la protection des civils au Soudan (SC/15901, nov. 2024) — https://press.un.org/en/2024/sc15901.doc.htm"
 
     timeline:
       - date: "2019"
@@ -326,6 +333,15 @@ dossiers:
         - "Council on Foreign Relations, Global Conflict Tracker : la guerre en Ukraine (sept. 2026) — https://www.cfr.org/global-conflict-tracker/conflict/conflict-ukraine"
         - "Al Jazeera (sept. 2026) — https://www.aljazeera.com/news/2026/9/5/russias-putin-meets-us-envoys-to-discuss-trump-proposal-to-end-ukraine-war"
         - "Bibliothèque de la Chambre des communes (sept. 2026) — https://commonslibrary.parliament.uk/research-briefings/cbp-12198/"
+
+    # Au Conseil de sécurité de l'ONU : vetos et résolutions adoptées sur ce conflit
+    council:
+      - date: "2025-02"
+        text: "Deux vetos de la Russie contre des amendements européens rappelant la souveraineté et l'intégrité territoriale de l'Ukraine"
+        source: "Security Council Report, le Conseil de sécurité en 2025 et l'année à venir (janv. 2026) — https://www.securitycouncilreport.org/monthly-forecast/2026-01/in-hindsight-the-security-council-in-2025-and-the-year-ahead.php"
+      - date: "2025-02"
+        text: "Résolution 2774 adoptée : elle appelle à une fin rapide du conflit ; cinq pays européens s'abstiennent"
+        source: "Security Council Report, le Conseil de sécurité en 2025 et l'année à venir (janv. 2026) — https://www.securitycouncilreport.org/monthly-forecast/2026-01/in-hindsight-the-security-council-in-2025-and-the-year-ahead.php"
 
     timeline:
       - date: "2014"
@@ -502,6 +518,15 @@ dossiers:
         - "Council on Foreign Relations, Global Conflict Tracker : le conflit avec l'Iran (sept. 2026) — https://www.cfr.org/global-conflict-tracker/conflict/confrontation-between-united-states-and-iran"
         - "GlobalSecurity.org, guerre en Iran, point du 30 septembre 2026 — https://www.globalsecurity.org/military/ops/iran-war-oprep.htm"
 
+    # Au Conseil de sécurité de l'ONU : vetos et résolutions adoptées sur ce conflit
+    council:
+      - date: "2026-04"
+        text: "Veto de la Chine et de la Russie contre un texte sur la protection de la navigation dans le détroit d'Ormuz"
+        source: "Bibliothèque de la Chambre des communes, « Reopening the Strait of Hormuz » (juin 2026) — https://commonslibrary.parliament.uk/research-briefings/cbp-10636/"
+      - date: "2026-09"
+        text: "Veto de la Chine et de la Russie contre la prolongation du groupe d'experts qui surveille les sanctions contre l'Iran ; 11 voix pour"
+        source: "Al Jazeera, la Russie et la Chine opposent leur veto au mandat de surveillance des sanctions contre l'Iran (sept. 2026) — https://www.aljazeera.com/news/2026/9/17/russia-china-veto-un-mandate-to-monitor-iran-sanctions"
+
     timeline:
       - date: "1979"
         text: Révolution islamique ; l'Iran et les États-Unis deviennent adversaires
@@ -657,6 +682,18 @@ dossiers:
       sources:
         - "FDD's Long War Journal (sept. 2026) — https://www.longwarjournal.org/archives/2026/09/board-of-peace-unveils-gaza-recovery-plan-israel-reports-18-ceasefire-violations-sept-15-29.php"
         - "Council on Foreign Relations, Global Conflict Tracker : le conflit israélo-palestinien (août 2026) — https://www.cfr.org/global-conflict-tracker/conflict/israeli-palestinian-conflict"
+
+    # Au Conseil de sécurité de l'ONU : vetos et résolutions adoptées sur ce conflit
+    council:
+      - date: "2025-06"
+        text: "Veto des États-Unis contre un texte demandant un cessez-le-feu immédiat et permanent ; 14 voix pour sur 15"
+        source: "Security Council Report, le Conseil de sécurité en 2025 et l'année à venir (janv. 2026) — https://www.securitycouncilreport.org/monthly-forecast/2026-01/in-hindsight-the-security-council-in-2025-and-the-year-ahead.php"
+      - date: "2025-09"
+        text: "Second veto des États-Unis contre un texte semblable ; 14 voix pour sur 15"
+        source: "Security Council Report, le Conseil de sécurité en 2025 et l'année à venir (janv. 2026) — https://www.securitycouncilreport.org/monthly-forecast/2026-01/in-hindsight-the-security-council-in-2025-and-the-year-ahead.php"
+      - date: "2025-11"
+        text: "Résolution 2803 adoptée : elle approuve le plan de paix et crée le Board of Peace ; la Chine et la Russie s'abstiennent"
+        source: "Security Council Report, le Conseil de sécurité en 2025 et l'année à venir (janv. 2026) — https://www.securitycouncilreport.org/monthly-forecast/2026-01/in-hindsight-the-security-council-in-2025-and-the-year-ahead.php"
 
     timeline:
       - date: "2007"
