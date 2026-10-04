@@ -124,7 +124,8 @@ dossiers:
       - label: Les terres agricoles
         icon: wheat
         text: >-
-          Les Émirats exploitent plus de 200 000 hectares de terres au Soudan pour leur sécurité alimentaire.
+          Deux groupes émiriens exploitent ensemble plus de 200 000 hectares de terres au Soudan (50 000 et 162 000,
+          selon Middle East Eye), pour la sécurité alimentaire des Émirats.
         sources:
           - "Middle East Eye, les FSR, alliées clés des intérêts logistiques et commerciaux émiriens (sept. 2024) — https://www.middleeasteye.net/news/sudan-rsf-key-ally-uae-logistical-and-corporate-interests"
       - label: Les routes d'approvisionnement
@@ -432,6 +433,7 @@ dossiers:
         nucléaires iraniens. Fin 2025, l'effondrement économique déclenche des manifestations, réprimées au prix de plus
         de 6 000 morts selon le CFR.
       sources:
+        - "Council on Foreign Relations, « International Sanctions on Iran » — https://www.cfr.org/backgrounder/international-sanctions-iran"
         - "Council on Foreign Relations, Global Conflict Tracker : le conflit avec l'Iran (sept. 2026) — https://www.cfr.org/global-conflict-tracker/conflict/confrontation-between-united-states-and-iran"
 
     sides:
@@ -530,7 +532,7 @@ dossiers:
     timeline:
       - date: "1979"
         text: Révolution islamique ; l'Iran et les États-Unis deviennent adversaires
-        source: "Council on Foreign Relations, Global Conflict Tracker : le conflit avec l'Iran (sept. 2026) — https://www.cfr.org/global-conflict-tracker/conflict/confrontation-between-united-states-and-iran"
+        source: "Council on Foreign Relations, « International Sanctions on Iran » — https://www.cfr.org/backgrounder/international-sanctions-iran"
       - date: "2015"
         text: Accord sur le nucléaire iranien
         source: "Council on Foreign Relations, Global Conflict Tracker : le conflit avec l'Iran (sept. 2026) — https://www.cfr.org/global-conflict-tracker/conflict/confrontation-between-united-states-and-iran"
@@ -595,7 +597,7 @@ dossiers:
       countries: [[IL], []]   # le Hamas tient Gaza, pas la Cisjordanie : la Palestine n'est pas colorée, Gaza est épinglée
       pins:
         - {label: Gaza, at: [31.508, 34.46], text: "La principale ville d'un territoire de 2 millions d'habitants, gouverné par le Hamas depuis 2007.",
-           source: "Council on Foreign Relations, « What Is Hamas? » (oct. 2025) — https://www.cfr.org/backgrounders/what-hamas"}
+           source: "Council on Foreign Relations, Global Conflict Tracker : le conflit israélo-palestinien (août 2026) — https://www.cfr.org/global-conflict-tracker/conflict/israeli-palestinian-conflict"}
         - {label: Rafah, at: [31.289, 34.252], text: "Au sud, à la frontière égyptienne : le plan de reconstruction de septembre 2026 doit commencer par Rafah.",
            source: "FDD's Long War Journal, le Board of Peace présente un plan de reconstruction de Gaza (sept. 2026) — https://www.longwarjournal.org/archives/2026/09/board-of-peace-unveils-gaza-recovery-plan-israel-reports-18-ceasefire-violations-sept-15-29.php", dir: left}
     lede: >-
@@ -630,6 +632,7 @@ dossiers:
           Le Hamas gouverne Gaza depuis 2007. Fin juillet 2026, il a accepté un plan de désarmement par étapes, à condition
           qu'Israël se retire au même rythme. Il est dirigé par Khalil al-Hayya.
         sources:
+          - "Council on Foreign Relations, Global Conflict Tracker : le conflit israélo-palestinien (août 2026) — https://www.cfr.org/global-conflict-tracker/conflict/israeli-palestinian-conflict"
           - "Al Jazeera, le Board of Peace annonce un accord de désarmement du Hamas (juill. 2026) — https://www.aljazeera.com/news/2026/7/31/gaza-board-of-peace-announces-hamas-disarmament-agreement-what-we-know"
           - "Chatham House, Julie Norman (août 2026) — https://www.chathamhouse.org/2026/08/agreeing-disarm-hamas-trying-call-israels-bluff-gaza"
 
@@ -697,8 +700,8 @@ dossiers:
 
     timeline:
       - date: "2007"
-        text: Le Hamas prend le contrôle de Gaza ; l'Égypte et Israël ferment leurs frontières
-        source: "Council on Foreign Relations, « What Is Hamas? » (oct. 2025) — https://www.cfr.org/backgrounders/what-hamas"
+        text: Le Hamas prend le contrôle de Gaza ; Israël et l'Égypte imposent un blocus
+        source: "Council on Foreign Relations, Global Conflict Tracker : le conflit israélo-palestinien (août 2026) — https://www.cfr.org/global-conflict-tracker/conflict/israeli-palestinian-conflict"
       - date: "2023-10"
         text: Attaque du Hamas contre Israël ; début de la guerre à Gaza
         source: "Council on Foreign Relations, Global Conflict Tracker : le conflit israélo-palestinien (août 2026) — https://www.cfr.org/global-conflict-tracker/conflict/israeli-palestinian-conflict"
@@ -734,7 +737,7 @@ dossiers:
            source: "Security Council Report, Afrique de l'Ouest et Sahel, prévisions de juillet 2026 — https://www.securitycouncilreport.org/monthly-forecast/2026-07/west-africa-and-the-sahel-17.php"}
         - {label: Sévaré, at: [14.533, -4.1], text: "Dans le centre du Mali, visée lors de l'offensive coordonnée du 25 avril 2026.",
            source: "Security Council Report, Afrique de l'Ouest et Sahel, prévisions de juillet 2026 — https://www.securitycouncilreport.org/monthly-forecast/2026-07/west-africa-and-the-sahel-17.php"}
-        - {label: Gao, at: [16.267, -0.05], text: "Grande ville du Nord, prise par les rebelles en 2012 et attaquée de nouveau le 25 avril 2026.",
+        - {label: Gao, at: [16.267, -0.05], text: "Grande ville du Nord, visée lors de l'offensive coordonnée du 25 avril 2026.",
            source: "Security Council Report, Afrique de l'Ouest et Sahel, prévisions de juillet 2026 — https://www.securitycouncilreport.org/monthly-forecast/2026-07/west-africa-and-the-sahel-17.php"}
         - {label: Kidal, at: [18.441, 1.408], text: "Bastion des rebelles touaregs. Fin avril 2026, les militaires russes s'en retirent après un accord avec le FLA, qui en revendique le contrôle.",
            source: "Security Council Report, Afrique de l'Ouest et Sahel, prévisions de juillet 2026 — https://www.securitycouncilreport.org/monthly-forecast/2026-07/west-africa-and-the-sahel-17.php"}
@@ -806,6 +809,7 @@ dossiers:
           remplacé le groupe Wagner en 2025. L'offensive d'avril 2026 l'a contraint à quitter le Nord pour se regrouper
           autour de Bamako, ce qui montre ses limites selon le Soufan Center.
         sources:
+          - "Carnegie Endowment, « Russia in Africa: Examining Moscow's Influence and Its Limits » (févr. 2026) — https://carnegieendowment.org/research/2026/02/russia-role-west-southern-africa-junta-wagner-africa-corps"
           - "Al Jazeera, le rôle de la Russie dans la sécurité du Mali et du Sahel (avr. 2026) — https://www.aljazeera.com/news/2026/4/29/what-role-has-russia-played-in-malis-security-and-the-sahel-region"
           - "Soufan Center, les limites de l'Africa Corps : le Mali et l'offensive JNIM-FLA (mai 2026) — https://thesoufancenter.org/intelbrief-2026-may-12/"
       - label: La rupture avec les voisins

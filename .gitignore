@@ -6,3 +6,4 @@ site/
 network.pending.yaml
 ingest.log
 .DS_Store
+.audit-cache/
